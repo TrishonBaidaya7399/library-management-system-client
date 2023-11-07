@@ -1,0 +1,11 @@
+.slick-prev:before{
+    font-size: 70px;
+    color: rgb(125, 8, 184);
+    opacity: 1;
+}
+.slick-next:before{
+    font-size: 70px;
+    color: rgb(0, 208, 255);
+    opacity: 1;
+    margin-left: -25px;
+}
