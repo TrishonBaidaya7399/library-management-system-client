@@ -1,31 +1,79 @@
-import { NavLink } from "react-router-dom";
+import { useContext, useEffect, useState } from "react";
+import { MdDelete } from 'react-icons/md';
+// import { RiDeleteBin5Line } from 'react-icons/ri';
+// import { FiCornerUpLeft } from 'react-icons/fi';
+// import { NavLink } from "react-router-dom";
+import { AuthContext } from "../../Provider/AuthProvider";
 
 const Borrow = () => {
+const {user}= useContext(AuthContext);
+const [bookings, setBookings] = useState([]);
+
+const url = `http://localhost:5000/borrowed?email=${user?.email}`
+useEffect(()=>{
+    fetch(url)
+    .then(res => res.json())
+    .then(data =>{
+        console.log(data);
+        setBookings(data)
+    })
+    .catch(error =>{
+        console.log(error.message);
+    })
+},[])
 
 return (
-    <div>
-        <ul className="lg:px-[200px]">
-            <div >
-                <div className="border-2 rounded-xl border-gray-300 w-full flex p-6 my-6 items-center">
-                    <div className=" flex items-center w-[100px]  md:w-[180px] justify-center rounded-lg mr-8">
-                        <img  alt="" className="h-[170px] rounded-lg" />
-                    </div>
-                    <div>
-                    <h1 className="text-[18px] lg:text-[24px] font-bold"></h1>
-                    <h1 className="text-[16px] lg:text-[20px] font-semibold text-gray-500 pb-[15px]"></h1>
-                    <div className="flex gap-4 pb-4">
-                        <div className="text-xl text-[#9873FF] rounded-lg">
-                        </div>
-                        <div className="text-xl text-[#9873FF] rounded-lg">$</div>
-                        </div>
-                        </div>
-                        <div className="flex ml-auto items-center flex-col">
-                        <NavLink className="bg-none rounded-lg"><button className="btn bg-gradient-to-r from-[#7E90FE] to-[#9873FF] text-white text-[14px] md:text-[18px] md:py-[10px] md:px-[18px]">DELETE</button></NavLink>
-                        <NavLink className="bg-none rounded-lg"><button className="btn bg-gradient-to-r from-[#7E90FE] to-[#9873FF] text-white text-[14px] md:text-[18px] md:py-[10px] md:px-[18px]">Buy</button></NavLink>
-                        </div>
+<div className="mx-[20px] md:mx-[50px] lg:mx-[100px] my-12">
+<div className="overflow-x-auto">
+  <table className="table">
+    {/* head */}
+    <thead>
+      <tr className="text-xl text-blue-400">
+        <th>Delete</th>
+        <th>Books</th>
+        <th>Users</th>
+        <th>Borrowed </th>
+        <th>Return </th>
+        <th>Approval</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      {/* row 1 */}
+      {
+        bookings.map(booking =>
+            <tr key={booking._id}>
+                {/* onClick={()=> handleRemove(booking._id)}  */}
+            <td><button className="text-red-600 text-[40px]"><MdDelete/></button></td>
+            <td>
+              <div className="flex items-center space-x-3">
+                <div className="avatar">
+                  <div className=" w-[80px] h-[100px]">
+                    <img src={booking?.photo} className="" alt="Avatar Tailwind CSS Component" />
+                  </div>
                 </div>
-            </div>
-        </ul>
+                <div>
+                  <div className="font-bold text-xl font-bold">{booking?.title}</div>
+                  <div className="text-sm opacity-50 text-lg font-semibold">{booking?.category}</div>
+                </div>
+              </div>
+            </td>
+            <td className="text-lg font-bold">{booking?.userName}<br/><span className="text-sm font-normal">{booking?.email}</span></td>
+            <td className="text-lg ">{booking?.borrowData}</td>
+            <td className="text-lg ">{booking?.returnDate}</td>
+            <th>
+              <button className="btn btn-ghost btn-xs">Pending...</button>
+            </th>
+            <th>
+              <button className="btn bg-gradient-to-r from-purple-700 to-blue-300 text-white btn-md text-md">Return</button>
+            </th>
+          </tr>
+        )
+      }
+     
+    </tbody>    
+  </table>
+</div>
     </div>
     );
 };
