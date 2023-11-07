@@ -4,15 +4,18 @@ import Slider from 'react-slick';
 import { Link } from 'react-router-dom';
 import { useState } from 'react';
 import "./style.css"
+import { useEffect } from 'react';
 
 const PopularBooks = () => {
   const [books, setBooks] = useState([])
-  fetch("http://localhost:5000/books")
-  .then(res => res.json())
-  .then(data => {
-    setBooks(data);
-    console.log(data);
-  })
+  useEffect(() => {
+    fetch("http://localhost:5000/books")
+      .then(res => res.json())
+      .then(data => {
+        setBooks(data);
+        console.log(data);
+      });
+  }, []); 
   const popularBooks = books.filter((book) => book?.rating >= 4);
 
   const settings = {

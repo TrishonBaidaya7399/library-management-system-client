@@ -191,7 +191,7 @@ const AllBooks = () => {
                  </div>
                  <div className='w-1/3'>
                  {/* /${book?._id} */}
-                     <NavLink to={`/updatebook`}><p className='text-xl bg-gradient-to-r from-purple-600 to-blue-400 text-transparent bg-clip-text w-fit hover:text-xl bg-gradient-to-l duration-500 font-semibold w-full' id={book?._id}>Update</p></NavLink>
+                     <NavLink to={`/updatebook/${book?._id}`}><p className='text-xl bg-gradient-to-r from-purple-600 to-blue-400 text-transparent bg-clip-text w-fit hover:text-xl bg-gradient-to-l duration-500 font-semibold w-full' id={book?._id}>Update</p></NavLink>
                  </div>
                  <div className='w-1/3'>
                  <NavLink onClick={()=>handleDelete(book?._id)} to={`#`}><p className='text-xl text-red-500 hover:text-xl bg-gradient-to-l duration-500 font-semibold w-full' id={book?._id}>Delete</p></NavLink>

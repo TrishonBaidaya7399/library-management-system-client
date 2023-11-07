@@ -1,5 +1,6 @@
 // import PropTypes from 'prop-types';
 import { BsFillMoonStarsFill, BsFillSunFill } from 'react-icons/bs';
+import { FiLogOut } from 'react-icons/fi';
 import { Link, NavLink } from "react-router-dom";
 import logo from "../../images/logos/logo-coloured.png"
 import { useEffect, useState } from "react";
@@ -100,10 +101,13 @@ const NavItems = <div className="flex flex-col lg:flex-row gap-4 items-center">
               <img className='rounded-full' src={user?.photoURL ? user.photoURL : 'https://i.ibb.co/qnT81gF/illustration-of-human-icon-user-symbol-icon-modern-design-on-blank-background-free-vector.jpg'} />
             </div>
           </label>
-          <ul tabIndex={0} className="menu menu-sm dropdown-content mt-[200px] z-[1] p-2 shadow bg-base-100 rounded-box w-[350px]">
-            <li><a className="justify-between bg-gradient-to-r from-purple-700 to-blue-300 text-transparent bg-clip-text text-2xl font-bold ">{user?.displayName ? user.displayName : "User Logged In"}</a></li>
-            <li><NavLink to='/borrowed' className="text-xl font-bold py-2"><li>Borrowed Books</li></NavLink></li>
-            <li onClick={handleSignOut} className="btn bg-gradient-to-r from-purple-700 to-blue-300 text-white">Logout</li>
+          <ul tabIndex={0} className="menu menu-sm dropdown-content mt-[300px] z-30 p-2 shadow bg-base-100 rounded-box w-[350px]">
+            <li className='w-[200px] h-[200px] rounded-lg border-[5px] border-purple-700 flex items-center justify-center mx-auto bg-gray-300'><img className='rounded-lg' src={user?.photoURL} alt="" /></li>
+            <li className='mx-auto'><a className="justify-between bg-gradient-to-r from-purple-700 to-blue-300 text-transparent bg-clip-text text-2xl font-bold text-center">{user?.displayName ? user.displayName : "User Logged In"}</a></li>
+           
+            <li className='w-full'><NavLink to='/borrowed' className="btn bg-gradient-to-r from-purple-700 to-blue-300 text-white text-center pt-3 w-full text-xl"><li>Borrowed Books</li></NavLink></li>
+            <li onClick={handleSignOut} className="btn bg-gradient-to-r from-purple-700 to-blue-300 text-white text-xl"><p className='text-xl'>Logout<FiLogOut className='text-[30px]'/></p></li>
+          
           </ul>
     </div>
   :

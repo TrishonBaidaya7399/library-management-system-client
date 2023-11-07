@@ -21,6 +21,7 @@ import ThrillerBooks from './Pages/CategoryBooks/ThrillerBooks';
 import AllBooks from './Pages/All Books/AllBooks';
 import AuthProvider from './Provider/AuthProvider';
 import PrivateRoute from './Provider/PrivateRoute';
+import Borrow from './Pages/Borrow/Borrow';
 
 const router = createBrowserRouter([
   {
@@ -45,8 +46,14 @@ const router = createBrowserRouter([
         element: <PrivateRoute><AddBooks/></PrivateRoute>
       },
       {
-        path: '/updatebook',
-        element: <PrivateRoute><UpdateBook/></PrivateRoute>
+        path: '/updatebook/:id',
+        element: <PrivateRoute><UpdateBook/></PrivateRoute>,
+        loader: ({params})=> fetch(`http://localhost:5000/books/${params.id}`)
+      },
+      {
+        path: '/borrowed',
+        element: <PrivateRoute><Borrow/></PrivateRoute>,
+        loader: ()=> fetch(`http://localhost:5000/books`)
       },
       {
         path: '/allbooks',

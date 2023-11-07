@@ -4,61 +4,87 @@
 // import { saveAddToCart } from '../../../Utility/localstorage';
 import { AiFillStar } from 'react-icons/ai';
 import { Link, useLoaderData } from "react-router-dom";
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 import { AuthContext } from "../../Provider/AuthProvider";
+import Swal from 'sweetalert2';
 
 
 const BookDetails = () => {
+  const [modalHidden, setModalHidden] = useState(false);
+  console.log(modalHidden);
     // const navigate = useNavigate(); 
     const book = useLoaderData();
     console.log(book);
-    // const {user,loading} = useContext(AuthContext);
-    const {loading} = useContext(AuthContext);
+    const {user,loading} = useContext(AuthContext);
     if(loading){
       return <span className="loading loading-bars loading-lg"></span>
   }
+  const handleBorrow = e => {
+    e.preventDefault();
+    const form = e.target;
+    const userName = form.name.value;
+    const email = form.email.value;
+  
+    const currentDate = new Date();
+    const day = String(currentDate.getDate()).padStart(2, '0');
+    const month = String(currentDate.getMonth() + 1).padStart(2, '0');
+    const year = currentDate.getFullYear();
+    const borrowData = `${year}-${month}-${day}`;
+  
+    const returnDate = form.date.value;
+    const id = book._id;
+    const photo = book.photo;
+    const title = book.name;
+    const category = book.category;
+    const borrow = { userName, email, returnDate, id, photo, title, category, borrowData };
+    console.log(borrow);
+    setModalHidden(true)
+    Swal.fire({
+      title: 'Borrow Confirmation',
+      text: 'Are you sure you want to borrow this book?',
+      icon: 'info',
+      showCancelButton: true,
+      confirmButtonText: 'Yes, Borrow',
+      cancelButtonText: 'Cancel',
+    }).then((result) => {
+      setModalHidden(false)
+      if (result.isConfirmed) {
+        fetch('http://localhost:5000/borrowed', {
+          method: 'POST',
+          headers: {
+            'content-type': 'application/json',
+          },
+          body: JSON.stringify(borrow),
+        })
+    .then(res => res.json())
+    .then(data => {
+      console.log(data);
+      if(data.insertedId){
+        setModalHidden(false)
+        Swal.fire({
+          title: "Success!",
+          text: "Your request to borrow this book has been send to admin. Please check your Borrowed Book section. When your request will be approved, it will show as APPROVED!",
+          imageUrl: book?.photo,
+          imageWidth: 300,
+          imageHeight: 350,
+          imageAlt: "Custom image",
+          confirmButtonText: 'Ok!'
+        });
+      }
+    })
+    .catch(error =>{
+      setModalHidden(false)
+      Swal.fire({
+        title: 'Error!',
+        text: error.message,
+        icon: 'error',
+        confirmButtonText: 'Ok!'
+      })
+    })
+  }});
 
-
-// const handleAddToCart = async (productId) => {
-//  const userId= user._id; 
-//  console.log(productId);
-//   const productData = {
-//     productId: productId,
-//     userId: userId ,
-//   };
-
-//   try {
-//     const response = await fetch('https://electro-mart-server-ten.vercel.app/cartitems', {
-//       method: 'POST',
-//       headers: {
-//         'Content-Type': 'application/json',
-//       },
-//       body: JSON.stringify(productData),
-//     });
-
-//     if (response.ok) {
-//       Swal.fire({
-//         title: 'Success!',
-//         text: 'Product added to cart successfully!',
-//         icon: 'success',
-//         showCancelButton: true,
-//         confirmButtonColor: '#3085d6',
-//         cancelButtonColor: '#d33',
-//         confirmButtonText: 'Go to cart',
-//       }).then((result) => {
-//         if (result.isConfirmed) {
-//           navigate('/addtocart');
-//         }
-//       });
-//     } else {
-//       // Handle error
-//       console.error('Failed to add the product to the cart');
-//     }
-//   } catch (error) {
-//     // Handle fetch error
-//     console.error(error);
-//   }
-// };
+  };
+  
 
     return (
         <div className="">
@@ -90,31 +116,45 @@ const BookDetails = () => {
         </div>
     </div>
     {/* You can open the modal using document.getElementById('ID').showModal() method */}
-<dialog id="my_modal_3" className="modal">
+    ${modalHidden === false 
+    ? 
+    <>
+    <dialog id="my_modal_3" className="modal">
   <div className="modal-box bg-base-300">
     <form method="dialog">
       {/* if there is a button in form, it will close the modal */}
       <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2 text-purple-600 font-extrabold text-xl">✕</button>
     </form>
-    <form className='text-gray-500'>
+    <form onSubmit={handleBorrow} className='text-gray-500'>
+     <img className='w-[200px] h-[250px] mx-auto border-[5px] border-purple-700 p-1 rounded-lg' src={book?.photo} alt="" /> 
+     <h1 className='bg-gradient-to-r from-purple-700 to-blue-400 text-transparent bg-clip-text pt-2 text-3xl font-bold w-fit mx-auto'>{book?.name}</h1>
+     {
+      book?.quantity === 0
+      ? <p className='text-red-500 font-bold pt-4 text-center text-xl'>Unavailable</p>
+      : ''
+    }
     <div className="mt-6">
         <h1 className="text-gray-600 text-xl font-semibold">User Name</h1>
-        <input type="text" name="name" id="name" required placeholder="Enter Your Name"  defaultValue="Trishon Baidaya" className="w-full bg-white border-2 border-white hover:border-gray-300 mt-4 p-3 rounded-md duration-200" />
+        <input type="text" name="name" id="name" required placeholder="Enter Your Name"  defaultValue={user?.displayName} className="w-full bg-white border-2 border-white hover:border-gray-300 mt-4 p-3 rounded-md duration-200" />
     </div>
     <div className="mt-6">
         <h1 className="text-gray-600 text-xl font-semibold">User Email</h1>
-        <input type="email" name="email" id="email" required placeholder="Enter Your Email"  defaultValue="shukantobaidya2018@gmail.com" className="w-full bg-white border-2 border-white hover:border-gray-300 mt-4 p-3 rounded-md duration-200" />
+        <input type="email" name="email" id="email" required placeholder="Enter Your Email"  defaultValue={user?.email} className="w-full bg-white border-2 border-white hover:border-gray-300 mt-4 p-3 rounded-md duration-200" />
     </div>
     <div className="mt-6">
         <h1 className="text-gray-600 text-xl font-semibold">Return Date</h1>
-        <input type="date" name="return" id="return" required placeholder="Enter Your Returning Date"  defaultValue="shukantobaidya2018@gmail.com" className="w-full bg-white border-2 border-white hover:border-gray-300 mt-4 p-3 rounded-md duration-200" />
+        <input type="date" name="date" id="date" required placeholder="Enter Your Returning Date"  className="w-full bg-white border-2 border-white hover:border-gray-300 mt-4 p-3 rounded-md duration-200" />
     </div>
+    
     <div className="mt-6 flex gap-12">
-    <input type="submit" value="Borrow" className="btn text-xl bg-gradient-to-r from-purple-700 to-blue-400 rounded-lg text-white text-center w-full" />
+    <input type="submit" value="Borrow"  disabled={book?.quantity <= 0} className="btn text-xl bg-gradient-to-r from-purple-700 to-blue-400 rounded-lg text-white text-center w-full" />
     </div>
     </form>                
   </div>
 </dialog>
+    </> 
+    : ''}
+
         </div>
     );
 };
