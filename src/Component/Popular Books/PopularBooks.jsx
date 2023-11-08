@@ -9,7 +9,7 @@ import { useEffect } from 'react';
 const PopularBooks = () => {
   const [books, setBooks] = useState([])
   useEffect(() => {
-    fetch("http://localhost:5000/books")
+    fetch("https://library-management-system-server-phi.vercel.app/books")
       .then(res => res.json())
       .then(data => {
         setBooks(data);
@@ -39,7 +39,7 @@ const PopularBooks = () => {
       {
         breakpoint: 800,
         settings: {
-          slidesToShow: 4,
+          slidesToShow: 3,
           slidesToScroll: 1,
           initialSlide: 2
         }

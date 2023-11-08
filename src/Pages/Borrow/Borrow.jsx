@@ -8,10 +8,12 @@ import Swal from "sweetalert2";
 import { useLoaderData } from "react-router-dom";
 
 const Borrow = () => {
-const {user}= useContext(AuthContext);
+const {user, isAdmin}= useContext(AuthContext);
 const book = useLoaderData();
 const [bookings, setBookings] = useState([]);
-const url = `http://localhost:5000/borrowed?email=${user?.email}`
+const [Allbookings, setAllBookings] = useState([]);
+const allUrl =  `https://library-management-system-server-phi.vercel.app/borrowed`
+const url = `https://library-management-system-server-phi.vercel.app/borrowed?email=${user?.email}`
 useEffect(()=>{
     fetch(url)
     .then(res => res.json())
@@ -22,7 +24,16 @@ useEffect(()=>{
     .catch(error =>{
         console.log(error.message);
     })
-},[url])
+    fetch(allUrl)
+    .then(res => res.json())
+    .then(data =>{
+        console.log(data);
+        setAllBookings(data)
+    })
+    .catch(error =>{
+        console.log(error.message);
+    })
+},[url,allUrl])
 
 const handleRemove = (id) =>{
   console.log('Remove button clicked!');
@@ -37,14 +48,14 @@ const handleRemove = (id) =>{
   }).then((result) => {
     if (result.isConfirmed) {
       console.log(id);
-      fetch(`http://localhost:5000/borrowed/${id}`,{method: "DELETE"})
+      fetch(`https://library-management-system-server-phi.vercel.app/borrowed/${id}`,{method: "DELETE"})
       .then(res=> res.json())
       .then(data => {
         console.log(data);
        
         if(data.deletedCount>0){
-            // send increased quantity to the server
-         fetch(`http://localhost:5000/books/${book?._id}`,{
+        //<------ send increased quantity to the server ------->
+         fetch(`https://library-management-system-server-phi.vercel.app/books/${book?._id}`,{
           method: "PATCH",
           headers: {
             "content-type":"application/json"
@@ -83,7 +94,7 @@ const handleConfirm = (id)=>{
   }).then((result) => {
     if (result.isConfirmed) {
       console.log(id);
-      fetch(`http://localhost:5000/borrowed/${id}`,{
+      fetch(`https://library-management-system-server-phi.vercel.app/borrowed/${id}`,{
         method: "PATCH",
         headers: {
           "content-type":"application/json"
@@ -135,6 +146,54 @@ return (
     <tbody>
       {/* row 1 */}
       {
+        isAdmin
+        ?
+        <>
+        {
+        Allbookings.map(booking =>
+            <tr key={booking._id}>
+            <td className="md:w-[30%]">
+              <div className="flex items-center space-x-3">
+                <div className="avatar">
+                  <div className=" w-[80px] h-[100px]">
+                    <img src={booking?.photo} className="" alt="Avatar Tailwind CSS Component" />
+                  </div>
+                </div>
+                <div>
+                  <div className="font-bold text-xl font-bold">{booking?.title}</div>
+                  <div className="text-sm opacity-50 text-lg font-semibold">{booking?.category}</div>
+                </div>
+              </div>
+            </td>
+            <td className="text-lg font-bold">{booking?.userName}<br/><span className="text-sm font-normal">{booking?.email}</span></td>
+            <td className="text-lg ">{booking?.borrowData}</td>
+            <td className="text-lg ">{booking?.returnDate}</td>
+            <th>
+              {
+                booking.status === "Confirmed"
+                ? <span className="bg-green-400 text-black p-2 text-md rounded-lg">CONFIRMED</span>
+                : 
+                <>
+                {
+                  isAdmin
+                  ? <button onClick={()=>handleConfirm(booking?._id)} className="btn btn-sm bg-red-500 text-white">Pending...</button>
+                  : <span className="bg-green-400 text-black p-2 text-md rounded-lg">Pending...</span>
+                }
+                </>
+              
+               
+              }
+            </th>
+            <th>
+              <button onClick={()=>handleRemove(booking?._id)} className="btn bg-gradient-to-r from-purple-700 to-blue-300 text-white btn-md text-md">Return</button>
+            </th>
+          </tr>
+        )
+      }
+        </>
+        :
+        <>
+        {
         bookings.map(booking =>
             <tr key={booking._id}>
             <td className="md:w-[30%]">
@@ -157,7 +216,16 @@ return (
               {
                 booking.status === "Confirmed"
                 ? <span className="bg-green-400 text-black p-2 text-md rounded-lg">CONFIRMED</span>
-                : <button onClick={()=>handleConfirm(booking?._id)} className="btn btn-sm bg-red-500 text-white">Pending...</button>
+                : 
+                <>
+                {
+                  isAdmin
+                  ? <button onClick={()=>handleConfirm(booking?._id)} className="btn btn-sm bg-red-500 text-white">Pending...</button>
+                  : <span className="bg-green-400 text-black p-2 text-md rounded-lg">Pending...</span>
+                }
+                </>
+              
+               
               }
             </th>
             <th>
@@ -166,6 +234,9 @@ return (
           </tr>
         )
       }
+        </>
+      }
+      
      
     </tbody>    
   </table>

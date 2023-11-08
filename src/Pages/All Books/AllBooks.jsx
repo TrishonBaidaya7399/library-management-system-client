@@ -51,7 +51,7 @@ const AllBooks = () => {
     }).then((result) => {
       if (result.isConfirmed) {
         console.log(id);
-        fetch(`http://localhost:5000/books/${id}`, {
+        fetch(`https://library-management-system-server-phi.vercel.app/books/${id}`, {
           method: "DELETE",
         })
           .then((res) => res.json())
@@ -164,8 +164,11 @@ const AllBooks = () => {
             <option value="Drama">Drama Books</option>
           </select>
         </div>
-
-        <div className='grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-8 mx-[20px] md:mx-[50px] lg:mx-[100px] mb-12 '>
+{/*  */}
+  {
+    filteredBooksByCategory.length>0
+    ? <>
+    <div className='grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-8 mx-[20px] md:mx-[50px] lg:mx-[100px] mb-12 '>
           {filteredBooksByCategory.map((book, idx) => (
            <div key={idx} className="drop-shadow-lg text-center w-[300px] border-2 border-gray-400 p-4  rounded-md">
            <div className="prod-img bg-gray-400 w-full h-[200px] mx-auto rounded-lg">
@@ -222,6 +225,14 @@ const AllBooks = () => {
             {showAllBooks ? 'Show Less' : 'See All'}
           </button>
         )}
+    </>
+    : 
+    <div className="w-full flex flex-col items-center py-8 md:py-12 ">
+    <h1 className="bg-gradient-to-r from-purple-700 to-blue-300 text-transparent bg-clip-text w-fit text-4xl md:text-5xl lg:text-6xl font-bold mb-4">Books are not available!</h1>
+    <img src="https://i.ibb.co/kxmG7VD/no-record.png" alt="" />
+  </div>
+  }
+        
       </div>
     </>
   );

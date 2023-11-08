@@ -39,7 +39,7 @@ const AuthProvider = ({children}) => {
             console.log("User in the auth state change", currentUser);
             setUser(currentUser);
             setLoading(false);
-                fetch(`http://localhost:5000/user?email=${currentUser?.email}`)
+                fetch(`https://library-management-system-server-phi.vercel.app/user?email=${currentUser?.email}`)
                 .then(res=> res.json())
                 .then(data => {
                     console.log(data);

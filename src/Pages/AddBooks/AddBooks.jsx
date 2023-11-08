@@ -20,12 +20,13 @@ const AddBooks = () => {
         const name = form.name.value;
         const authorname = form.authorname.value;
         const photo = form.photo.value;
+        const pdf = form.pdf.value;
         const category = form.category.value;
         const price = form.price.value;
         const quantity = form.quantity.value;
         const description = form.description.value;
         const rating = form.rating.value;
-        const newBook = {photo, name, authorname, price, quantity, description, rating, category}
+        const newBook = {photo, name, authorname, price, quantity, description, rating, category, pdf}
         console.log('Name: ' + name);
         console.log('Photo URL: ' + photo);
         console.log('Category: ' + category);
@@ -36,7 +37,7 @@ const AddBooks = () => {
 
 
         // send data to the server
-        fetch('http://localhost:5000/books',{
+        fetch('https://library-management-system-server-phi.vercel.app/books',{
             method: "POST",
             headers: {
                 "content-type":"application/json"
@@ -62,10 +63,14 @@ const AddBooks = () => {
         <div className="py-[20px] md:pb-[70px]">
             <div className="bg-gray-200 w-[80%] mx-auto mt-[50px] py-[20px] md:py-[70px] rounded-lg">
                 <h1 className="text-center bg-gradient-to-r from-purple-700 to-blue-300 text-transparent bg-clip-text text-6xl font-bold w-fit pb-6 mx-auto">Add New Book</h1>
-                <form onSubmit={handleAdd} className="w-[80%] mx-auto">
+                <form onSubmit={handleAdd} className="w-[80%] mx-auto text-gray-600">
                     <div className="mt-6">
                         <h1 className="text-gray-600 text-xl font-semibold">Cover Photo URL</h1>
                         <input type="text" name="photo" id="photo" required placeholder="Enter Books Photo URL" className="w-full bg-white border-2 border-white hover:border-gray-300 mt-4 p-3 rounded-md duration-200" />
+                    </div>
+                    <div className="mt-6">
+                        <h1 className="text-gray-600 text-xl font-semibold">PDF URL</h1>
+                        <input type="text" name="pdf" id="pdf" required placeholder="Enter Books Photo URL" className="w-full bg-white border-2 border-white hover:border-gray-300 mt-4 p-3 rounded-md duration-200" />
                     </div>
                     <div className="mt-6">
                         <h1 className="text-gray-600 text-xl font-semibold">Cover Name</h1>

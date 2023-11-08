@@ -18,8 +18,9 @@ const Books = ({books, category}) => {
             </div>
             </>
              : 
-            <div className="flex items-center justify-center">
-               <img className='w-[100%] py-8' src="https://i.ibb.co/vJ2sgJq/product-not-found-removebg-preview.png" alt="" />
+             <div className="w-full flex flex-col items-center py-8 md:py-12 ">
+                <h1 className="bg-gradient-to-r from-purple-700 to-blue-300 text-transparent bg-clip-text w-fit text-4xl md:text-5xl lg:text-6xl font-bold mb-4">Books are not available!</h1>
+                <img src="https://i.ibb.co/kxmG7VD/no-record.png" alt="" />
             </div>
         }   
         

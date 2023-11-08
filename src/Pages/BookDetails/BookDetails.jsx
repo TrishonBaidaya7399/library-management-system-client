@@ -16,7 +16,7 @@ const BookDetails = () => {
   // Function to fetch the user's borrowed books
   const fetchBorrowedBooks = () => {
     if (user && !loading) {
-      fetch(`http://localhost:5000/borrowed?email=${user.email}`)
+      fetch(`https://library-management-system-server-phi.vercel.app/borrowed?email=${user.email}`)
         .then((response) => response.json())
         .then((data) => {
           setBorrowedBooks(data);
@@ -69,7 +69,7 @@ const BookDetails = () => {
       }).then((result) => {
         setModalHidden(false);
         if (result.isConfirmed) {
-          fetch('http://localhost:5000/borrowed', {
+          fetch('https://library-management-system-server-phi.vercel.app/borrowed', {
             method: 'POST',
             headers: {
               'content-type': 'application/json',
@@ -93,7 +93,7 @@ const BookDetails = () => {
                
               
                 // send decreased quantity to the server
-                fetch(`http://localhost:5000/books/${book?._id}`,{
+                fetch(`https://library-management-system-server-phi.vercel.app/books/${book?._id}`,{
                     method: "PATCH",
                     headers: {
                       "content-type":"application/json"
@@ -136,7 +136,7 @@ const BookDetails = () => {
                 {isBookAlreadyBorrowed ? 'Borrowed' : 'Borrow'}
               </button>
             </Link>
-            <Link to='#' className="text-white font-bold text-xl bg-gradient-to-r from-purple-700 to-blue-400 rounded-full px-6 py-2 mb-12">Read</Link>
+            <Link to={book?.pdf} className="text-white font-bold text-xl bg-gradient-to-r from-purple-700 to-blue-400 rounded-full px-6 py-2 mb-12">Read</Link>
           </div>
         </div>
         <div className="description p-4 text-start space-y-3 mt-4 col-span-2">

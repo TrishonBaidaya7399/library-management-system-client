@@ -33,7 +33,7 @@ const router = createBrowserRouter([
       {
         path: '/',
         element: <Home/>,
-        loader: ()=> fetch("http://localhost:5000/books")
+        loader: ()=> fetch("https://library-management-system-server-phi.vercel.app/books")
       },
       {
         path: '/signin',
@@ -50,53 +50,53 @@ const router = createBrowserRouter([
       {
         path: '/updatebook/:id',
         element: <PrivateRoute><UpdateBook/></PrivateRoute>,
-        loader: ({params})=> fetch(`http://localhost:5000/books/${params.id}`)
+        loader: ({params})=> fetch(`https://library-management-system-server-phi.vercel.app/books/${params.id}`)
       },
       {
         path: '/borrowed',
         element: <PrivateRoute><Borrow/></PrivateRoute>,
-        loader: ()=> fetch(`http://localhost:5000/books`)
+        loader: ()=> fetch(`https://library-management-system-server-phi.vercel.app/books`)
       },
       {
         path: '/allbooks',
         element: <PrivateRoute><AllBooks/></PrivateRoute>,
-        loader: ()=> fetch("http://localhost:5000/books")
+        loader: ()=> fetch("https://library-management-system-server-phi.vercel.app/books")
       },
       {
         path: '/bookdetails/:id',
         element: <PrivateRoute><BookDetails/></PrivateRoute>,
-        loader: ({params})=> fetch(`http://localhost:5000/books/${params.id}`)
+        loader: ({params})=> fetch(`https://library-management-system-server-phi.vercel.app/books/${params.id}`)
         
       },
       {
         path: '/dramabooks',
         element: <PrivateRoute><DramaBooks/></PrivateRoute>,
-        loader: ()=> fetch("http://localhost:5000/books")
+        loader: ()=> fetch("https://library-management-system-server-phi.vercel.app/books")
       },
       {
         path: '/historybooks',
         element: <PrivateRoute><HistoryBooks/></PrivateRoute>,
-        loader: ()=> fetch("http://localhost:5000/books")
+        loader: ()=> fetch("https://library-management-system-server-phi.vercel.app/books")
       },
       {
         path: '/novelbooks',
         element: <PrivateRoute><NovelBooks/></PrivateRoute>,
-        loader: ()=> fetch("http://localhost:5000/books")
+        loader: ()=> fetch("https://library-management-system-server-phi.vercel.app/books")
       },
       {
         path: '/religiousbooks',
         element: <PrivateRoute><ReligiousBooks/></PrivateRoute>,
-        loader: ()=> fetch("http://localhost:5000/books")
+        loader: ()=> fetch("https://library-management-system-server-phi.vercel.app/books")
       },
       {
         path: '/scifibooks',
         element: <PrivateRoute><SciFiBooks/></PrivateRoute>,
-        loader: ()=> fetch("http://localhost:5000/books")
+        loader: ()=> fetch("https://library-management-system-server-phi.vercel.app/books")
       },
       {
         path: '/thrillerbooks',
         element: <PrivateRoute><ThrillerBooks/></PrivateRoute>,
-        loader: ()=> fetch("http://localhost:5000/books")
+        loader: ()=> fetch("https://library-management-system-server-phi.vercel.app/books")
       },
     ]
   },

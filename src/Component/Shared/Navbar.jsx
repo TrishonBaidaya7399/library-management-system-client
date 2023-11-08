@@ -10,7 +10,7 @@ import Swal from "sweetalert2";
 const Navbar = () => {
 const initialDarkMode = JSON.parse(localStorage.getItem('darkMode')) || false;
 const [darkMode, setDarkMode] = useState(initialDarkMode);
-const {user, logOut} = useContext(AuthContext);
+const {user, logOut, isAdmin} = useContext(AuthContext);
 // const [cartItemCount, setCartItemCount] = useState(0);
 console.log(user);
 const handleSignOut=()=>{
@@ -32,21 +32,6 @@ const handleSignOut=()=>{
   })
 }
 
-// useEffect(() => {
-//   // Fetch cart items from the server and count the items for the current user
-//   //https://electro-mart-server-7dzz1fbbh-trishon-baidayas-projects.vercel.app/
-//   if (user) {
-//     fetch('https://electro-mart-server-ten.vercel.app/cartitems') // Update the URL to match your server endpoint
-//       .then((response) => response.json())
-//       .then((cartItems) => {
-//         const userCartItems = cartItems.filter((item) => item.userId === user._id);
-//         setCartItemCount(userCartItems.length);
-//       })
-//       .catch((error) => {
-//         console.error("Error fetching cart items:", error);
-//       });
-//   }
-// }, [user]);
 
 useEffect(() => {
   const body = document.querySelector('body');
@@ -57,7 +42,12 @@ useEffect(() => {
 
 const NavItems = <div className="flex flex-col lg:flex-row gap-4 items-center">
 <NavLink className={({isActive})=> isActive ? "text-sm md:text-md lg:text-xl font-bold text-white bg-gradient-to-r from-purple-700 to-blue-400 px-3 py-2 duration-300 rounded-lg" : "px-3 py-2 text-sm md:text-md lg:text-xl font-bold text-blue-400 hover:underline"} to='/'><li>Home</li></NavLink>
-<NavLink className={({isActive})=> isActive ? "text-sm md:text-md lg:text-xl font-bold text-white bg-gradient-to-r from-purple-700 to-blue-400 px-3 py-2 duration-300 rounded-lg" : "px-3 py-2 text-sm md:text-md lg:text-xl font-bold text-blue-400 hover:underline"} to='/addbooks'><li>Add Book</li></NavLink>
+{
+  isAdmin 
+  ?
+  <NavLink className={({isActive})=> isActive ? "text-sm md:text-md lg:text-xl font-bold text-white bg-gradient-to-r from-purple-700 to-blue-400 px-3 py-2 duration-300 rounded-lg" : "px-3 py-2 text-sm md:text-md lg:text-xl font-bold text-blue-400 hover:underline"} to='/addbooks'><li>Add Book</li></NavLink>
+  : ''
+}
 <NavLink className={({isActive})=> isActive ? "text-sm md:text-md lg:text-xl font-bold text-white bg-gradient-to-r from-purple-700 to-blue-400 px-3 py-2 duration-300 rounded-lg" : "px-3 py-2 text-sm md:text-md lg:text-xl font-bold text-blue-400 hover:underline"} to='/allbooks'><li>All Books</li></NavLink>
 </div>   
 

@@ -5,19 +5,20 @@ import bookImg from "../../images/Images/book.png"
 
 const UpdateBook = () => {
     const books = useLoaderData();
-    const {_id, name, authorname, photo, price, quantity, description, rating, category} = books;
+    const {_id,pdf, name, authorname, photo, price, quantity, description, rating, category} = books;
     const handleUpdate = (e) => {
         e.preventDefault();
         const form = e.target;
         const name = form.name.value;
         const authorname = form.authorname.value;
         const photo = form.photo.value;
+        const pdf = form.pdf.value;
         const category = form.category.value;
         const price = form.price.value;
         const description = form.description.value;
         const rating = form.rating.value;
         const quantity = form.quantity.value;
-        const updatedBook = {photo, name, authorname, price, quantity, description, rating, category}
+        const updatedBook = {photo, name, authorname, price, quantity, description, rating, category,pdf}
         console.log('Name: ' + name);
         console.log('Photo URL: ' + photo);
         console.log('Category: ' + category);
@@ -28,7 +29,7 @@ const UpdateBook = () => {
 
 
         // send data to the server
-        fetch(`http://localhost:5000/books/${_id}`,{
+        fetch(`https://library-management-system-server-phi.vercel.app/books/${_id}`,{
             method: "PUT",
             headers: {
                 "content-type":"application/json"
@@ -71,6 +72,10 @@ const UpdateBook = () => {
                             <div className="mt-6">
                             <h1 className="text-gray-600 text-xl font-semibold">Cover Photo URL</h1>
                             <input type="text" name="photo" id="photo" required placeholder="Enter Books Photo URL" defaultValue={photo} className="text-gray-600 w-full bg-white border-2 border-white hover:border-gray-300 mt-4 p-3 rounded-md duration-200" />
+                            </div>
+                            <div className="mt-6">
+                            <h1 className="text-gray-600 text-xl font-semibold">PDF URL</h1>
+                            <input type="text" name="pdf" id="pdf" required placeholder="Enter Books Photo URL" defaultValue={pdf} className="text-gray-600 w-full bg-white border-2 border-white hover:border-gray-300 mt-4 p-3 rounded-md duration-200" />
                             </div>
                             <div className="mt-6">
                             <h1 className="text-gray-600 text-xl font-semibold">Cover Name</h1>

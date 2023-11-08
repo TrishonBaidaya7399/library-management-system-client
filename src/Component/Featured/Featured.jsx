@@ -6,8 +6,8 @@ const Featured = () => {
     <h1 className="text-4xl md:text-6xl text-center font-bold font-serif bg-gradient-to-r from-purple-700 to-blue-300 text-transparent bg-clip-text text-4xl font-bold w-fit mx-auto pb-4">Featured Programs & Exhibits</h1>
     <p className="text-lg text-center font-bold font-serif pb-6">Latest Programs and Exhibitions</p>
 
-    <div className="flex gap-6">
-    <div className="left-side w-2/3 h-[100vh] overflow-auto pr-2">
+    <div className="flex flex-col lg:flex-row gap-6">
+    <div className="left-side lg:w-2/3 h-[100vh] overflow-auto pr-2 border-[5px] border-purple-700 lg:border-none text-black">
         <div className="flex flex-col gap-6">
             <div className=" rounded-lg border-2 border-gray-300 shadow-lg bg-gray-200">
                 <div className="p-2">
@@ -57,7 +57,8 @@ const Featured = () => {
         </div>
     </div>    
 
-    <div className="right-side w-1/3">
+    <h1 className="lg:hidden text-4xl md:text-6xl text-center font-bold font-serif bg-gradient-to-r from-purple-700 to-blue-300 text-transparent bg-clip-text text-4xl font-bold w-fit mx-auto pb-4">Featured Exhibits</h1>
+    <div className="right-side lg:w-1/3 border-[5px] border-purple-700 lg:border-none">
         <div className="flex flex-col gap-6 h-[100vh] overflow-auto pr-2">
             {/* News card */}
             <div className="flex gap-2 items-center rounded-lg border-2 border-gray-300">

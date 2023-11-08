@@ -10,18 +10,29 @@ import { AuthContext } from '../../Provider/AuthProvider';
 const SignUp = () => {  
   const {createUser, updateUserProfile, googleSignUp, user} = useContext(AuthContext);
   const [error, setError] = useState(null);
+  const [passwordError, setPasswordError] = useState(""); 
   const [loading, setLoading] = useState(false)
   const navigate = useNavigate()
   const handleSignUp = e =>{
     e.preventDefault();
     setLoading(true)
     setError(null)
+    setPasswordError("")
     const form = e.target;
     const name = form.name.value;
     const email = form.email.value;
     const photo = form.photo.value;
-    const password = form.password.value;
     const role = "user";
+    const password = form.password.value;
+    const passwordPattern = /^(?=.*[A-Z])(?=.*[!@#$%^&*])(.{6,})$/;
+
+         if (!password.match(passwordPattern)) {
+          setPasswordError("Password must include at least 6 characters, a capital letter, and a special symbol");
+          setLoading(false)
+           return; // Stop sign-up process if password is invalid
+          } else {
+            setPasswordError(""); 
+          }
 
     const newUser = {name, email, password, role, photo};
     console.log(newUser);
@@ -32,7 +43,7 @@ const SignUp = () => {
     const createdAt = result.user?.metadata?.creationTime;
     const user ={name, email, photo, createdAt }
     //https://coffee-shop-server-nine.vercel.app
-    fetch('http://localhost:5000/user', {
+    fetch('https://library-management-system-server-phi.vercel.app/user', {
         method: "POST",
         headers: {
             'content-type': "application/json"
@@ -146,6 +157,10 @@ const SignUp = () => {
           </label>
           <input type="password" name='password' placeholder="Your Password" className="input input-bordered text-gray-600" required />
         </div>
+        {
+        passwordError && (
+              <p className="text-red-600">{passwordError}</p>
+            )}
         {
         error &&  <p className="text-red-600 font-semibold">{error}</p>
        }
