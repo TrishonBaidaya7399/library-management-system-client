@@ -5,9 +5,11 @@ import { useContext, useEffect, useState } from "react";
 // import { NavLink } from "react-router-dom";
 import { AuthContext } from "../../Provider/AuthProvider";
 import Swal from "sweetalert2";
+import { useLoaderData } from "react-router-dom";
 
 const Borrow = () => {
 const {user}= useContext(AuthContext);
+const book = useLoaderData();
 const [bookings, setBookings] = useState([]);
 const url = `http://localhost:5000/borrowed?email=${user?.email}`
 useEffect(()=>{
@@ -39,7 +41,20 @@ const handleRemove = (id) =>{
       .then(res=> res.json())
       .then(data => {
         console.log(data);
+       
         if(data.deletedCount>0){
+            // send increased quantity to the server
+         fetch(`http://localhost:5000/books/${book?._id}`,{
+          method: "PATCH",
+          headers: {
+            "content-type":"application/json"
+          },
+          body: JSON.stringify({quantity:book?.quantity+2}) //-----------problem
+        })
+      .then(res=> res.json())
+      .then(data => {
+      console.log(data + "quantity changed: " + book?.quantity);
+      })
           Swal.fire({
             title: "Removed!",
             text: "Your Book has been removed.",
@@ -122,7 +137,7 @@ return (
       {
         bookings.map(booking =>
             <tr key={booking._id}>
-            <td>
+            <td className="md:w-[30%]">
               <div className="flex items-center space-x-3">
                 <div className="avatar">
                   <div className=" w-[80px] h-[100px]">

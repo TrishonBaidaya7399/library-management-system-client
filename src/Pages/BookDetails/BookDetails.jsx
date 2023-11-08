@@ -33,6 +33,7 @@ const BookDetails = () => {
     if (user && !loading) {
       fetchBorrowedBooks();
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user, loading]);
 
   const handleBorrow = (e) => {
@@ -97,7 +98,7 @@ const BookDetails = () => {
                     headers: {
                       "content-type":"application/json"
                     },
-                    body: JSON.stringify({quantity:book?.quantity})
+                    body: JSON.stringify({quantity:book?.quantity})//------------solved
                   })
                 .then(res=> res.json())
                 .then(data => {
