@@ -2,16 +2,21 @@ import PropTypes from 'prop-types';
 // import { RiDeleteBin5Fill } from 'react-icons/ri';
 import { NavLink, useLoaderData } from 'react-router-dom';
 import bannerVideo from "../../images/Images/bg video.mp4";
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import Swal from 'sweetalert2';
+import { AuthContext } from '../../Provider/AuthProvider';
 
 const AllBooks = () => {
+  const { isAdmin }= useContext(AuthContext);
   const allLoadedBooks = useLoaderData();
   const [loadedBooks, setLoadedBooks] = useState(allLoadedBooks)
   const [showAllBooks, setShowAllBooks] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState("All"); // Initial category filter
   const initialBookCount = 12;
-
+ 
+  if(isAdmin === true){
+    console.log('admin Id');
+  }
   const filteredBooks = showAllBooks
     ? loadedBooks
     : loadedBooks.slice(0, initialBookCount);
@@ -60,7 +65,8 @@ const AllBooks = () => {
                 text: "That thing is still around?",
                 icon: "success"
               });
-              // window.location.reload();
+              const remaining = loadedBooks.filter(book => book._id !== id);
+              setLoadedBooks(remaining);
 
             } else {
               Swal.fire({
@@ -189,13 +195,19 @@ const AllBooks = () => {
                  <div className='w-1/3'>
                      <NavLink to={`/bookdetails/${book?._id}`}><p className='text-xl bg-gradient-to-r from-purple-600 to-blue-400 text-transparent bg-clip-text w-fit hover:text-xl bg-gradient-to-l duration-500 font-semibold w-full' id={book?._id}>Details</p></NavLink>
                  </div>
-                 <div className='w-1/3'>
+                 {
+                  isAdmin
+                  ? <>
+                  <div className='w-1/3'>
                  {/* /${book?._id} */}
                      <NavLink to={`/updatebook/${book?._id}`}><p className='text-xl bg-gradient-to-r from-purple-600 to-blue-400 text-transparent bg-clip-text w-fit hover:text-xl bg-gradient-to-l duration-500 font-semibold w-full' id={book?._id}>Update</p></NavLink>
                  </div>
                  <div className='w-1/3'>
                  <NavLink onClick={()=>handleDelete(book?._id)} to={`#`}><p className='text-xl text-red-500 hover:text-xl bg-gradient-to-l duration-500 font-semibold w-full' id={book?._id}>Delete</p></NavLink>
                  </div>
+                  </>
+                  : ''
+                 }
              </div>
            </div>
          </div>

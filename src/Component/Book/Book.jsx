@@ -1,8 +1,11 @@
 import PropTypes from 'prop-types';
+import { useContext } from 'react';
 
 import { NavLink } from "react-router-dom";
+import { AuthContext } from '../../Provider/AuthProvider';
 
 const Book = ({book}) => {
+    const {isAdmin} = useContext(AuthContext)
 return (
 <div className="pb-6">
         <div className="drop-shadow-lg text-center w-[300px] h-[460px] border-2 border-gray-400 p-4  rounded-md">
@@ -31,10 +34,15 @@ return (
                 <div className='w-1/2'>
                 <NavLink to={`/bookdetails/${book?._id}`}><button className='btn bg-gradient-to-r from-purple-700 to-blue-400 hover:bg-gradient-to-l duration-500  text-white ho font-semibold w-full' id={book?._id}>Details</button></NavLink>
                 </div>
-                <div className='w-1/2'>
+                {
+                    isAdmin 
+                    ?   <div className='w-1/2'>
                     {/* /${book?._id} */}
                 <NavLink to={`/updatebook`}><button className='btn bg-gradient-to-r from-purple-700 to-blue-400 hover:bg-gradient-to-l duration-500  text-white ho font-semibold w-full' id={book?._id}>Update</button></NavLink>
                 </div>
+                    : ''
+                }
+              
             </div>
         </div>
 </div>

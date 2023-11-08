@@ -5,7 +5,7 @@ import bannerVideo from "../../images/Images/bg video.mp4";
 
 const SciFiBooks = () => {
   const loadedBooks = useLoaderData();
-  const books = loadedBooks.filter((book) => book?.category === 'Religious');
+  const books = loadedBooks.filter((book) => book?.category === 'Sci-Fi');
   console.log(books);
 
   return (

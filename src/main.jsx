@@ -22,11 +22,13 @@ import AllBooks from './Pages/All Books/AllBooks';
 import AuthProvider from './Provider/AuthProvider';
 import PrivateRoute from './Provider/PrivateRoute';
 import Borrow from './Pages/Borrow/Borrow';
+import ErrorPage from './Error Page/Error';
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <Root/>,
+    errorElement: <ErrorPage/>,
     children: [
       {
         path: '/',

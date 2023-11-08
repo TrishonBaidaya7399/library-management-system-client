@@ -14,9 +14,9 @@ const UpdateBook = () => {
         const photo = form.photo.value;
         const category = form.category.value;
         const price = form.price.value;
-        const quantity = form.quantity.value;
         const description = form.description.value;
         const rating = form.rating.value;
+        const quantity = form.quantity.value;
         const updatedBook = {photo, name, authorname, price, quantity, description, rating, category}
         console.log('Name: ' + name);
         console.log('Photo URL: ' + photo);

@@ -7,9 +7,11 @@ import { AuthContext } from '../../Provider/AuthProvider';
 
 const BookDetails = () => {
   const [modalHidden, setModalHidden] = useState(false);
-  const [borrowedBooks, setBorrowedBooks] = useState([]);
+  const [isBookAlreadyBorrowed, setIsBookAlreadyBorrowed] = useState(false);
   const book = useLoaderData();
+  const [quantity, setquantity] = useState(book?.quantity)
   const { user, loading } = useContext(AuthContext);
+  const [, setBorrowedBooks] = useState([]);
 
   // Function to fetch the user's borrowed books
   const fetchBorrowedBooks = () => {
@@ -18,6 +20,8 @@ const BookDetails = () => {
         .then((response) => response.json())
         .then((data) => {
           setBorrowedBooks(data);
+          const bookIsBorrowed = data.some((borrowedBook) => borrowedBook.id === book._id);
+          setIsBookAlreadyBorrowed(bookIsBorrowed);
         })
         .catch((error) => {
           console.error(error);
@@ -30,11 +34,6 @@ const BookDetails = () => {
       fetchBorrowedBooks();
     }
   }, [user, loading]);
-
-  // Function to check if the book is already borrowed by the current user
-  const isBookBorrowed = () => {
-    return borrowedBooks.some((borrowedBook) => borrowedBook.id === book._id);
-  };
 
   const handleBorrow = (e) => {
     e.preventDefault();
@@ -57,7 +56,7 @@ const BookDetails = () => {
     console.log(borrow);
 
     setModalHidden(true);
-    if (!isBookBorrowed()) {
+    if (!isBookAlreadyBorrowed) {
       // Only allow borrowing if the book is not already borrowed
       Swal.fire({
         title: 'Borrow Confirmation',
@@ -90,6 +89,22 @@ const BookDetails = () => {
                   imageAlt: 'Custom image',
                   confirmButtonText: 'Ok!',
                 });
+               
+              
+                // send decreased quantity to the server
+                fetch(`http://localhost:5000/books/${book?._id}`,{
+                    method: "PATCH",
+                    headers: {
+                      "content-type":"application/json"
+                    },
+                    body: JSON.stringify({quantity:book?.quantity})
+                  })
+                .then(res=> res.json())
+                .then(data => {
+                console.log(data + "quantity changed: " + book?.quantity);
+                setquantity(book?.quantity -1)
+                })
+                setIsBookAlreadyBorrowed(true);
               }
             })
             .catch((error) => {
@@ -105,6 +120,7 @@ const BookDetails = () => {
       });
     }
   };
+
   return (
     <div className="">
       <div className="drop-shadow-lg lg:h-[100vh] bg-gray-200 my-[50px] mx-[20px] md:mx-[50px] lg:mx-[100px] grid  grid-cols-1 lg:grid-cols-3 p-4 md:-p-8 lg:p-12">
@@ -112,8 +128,11 @@ const BookDetails = () => {
           <img className="mt-[20px] md:mt-[30px] rounded-t-lg h-full w-full border-[5px] border-blue-400" src={book?.photo} alt="" />
           <div className="flex items-center justify-center flex justify-between mt-12">
             <Link className="/">
-              <button onClick={() => document.getElementById('my_modal_3').showModal()} className="text-white font-bold text-xl bg-gradient-to-r from-purple-700 to-blue-400 rounded-full px-6 py-2 mb-12">
-                {isBookBorrowed() ? 'Borrowed' : 'Borrow'}
+              <button
+                onClick={() => document.getElementById('my_modal_3').showModal()}
+                className={`text-white font-bold text-xl bg-gradient-to-r from-purple-700 to-blue-400 rounded-full px-6 py-2 mb-12 ${isBookAlreadyBorrowed ? 'opacity-50 cursor-not-allowed' : ''}`}
+              >
+                {isBookAlreadyBorrowed ? 'Borrowed' : 'Borrow'}
               </button>
             </Link>
             <Link to='#' className="text-white font-bold text-xl bg-gradient-to-r from-purple-700 to-blue-400 rounded-full px-6 py-2 mb-12">Read</Link>
@@ -124,7 +143,7 @@ const BookDetails = () => {
           <h1 className='text-xl font-semibold text-gray-600'>Writer: {book?.authorname}</h1>
           <p className='text-lg font-semibold text-gray-500'><span className="text-gray-600 font-bold">Category:</span> {book?.category}</p>
           <p className='text-lg font-semibold text-gray-500'><span className="text-gray-600 font-bold">Price:</span> ${book?.price}</p>
-          <p className='text-lg font-semibold text-gray-500'><span className="text-gray-600 font-bold">Quantity:</span> {book?.quantity} books available</p>
+          <p className='text-lg font-semibold text-gray-500'><span className="text-gray-600 font-bold">Quantity:</span> {quantity > 0 ? quantity : <span className='text-red-500 font-bold'>Unavailable</span>} books</p>
           <div className="rating flex items-center">
             <p className='text-lg font-semibold mr-2 text-gray-600 font-bold'>Ratings: </p>
             {Array.from({ length: book.rating }).map((_, index) => (
@@ -135,7 +154,6 @@ const BookDetails = () => {
           <div className="overflow-auto max-h-48 text-gray-500">{book?.description}</div>
         </div>
       </div>
-      {/* You can open the modal using document.getElementById('ID').showModal() method */}
       {modalHidden === false && (
         <dialog id="my_modal_3" className="modal">
           <div className="modal-box bg-base-300">
@@ -159,7 +177,7 @@ const BookDetails = () => {
                 <input type="date" name="date" id="date" required placeholder="Enter Your Returning Date" className="w-full bg-white border-2 border-white hover-border-gray-300 mt-4 p-3 rounded-md duration-200" />
               </div>
               <div className="mt-6 flex gap-12">
-                <input type="submit" value="Borrow" disabled={book?.quantity <= 0 || isBookBorrowed()} className="btn text-xl bg-gradient-to-r from-purple-700 to-blue-400 rounded-lg text-white text-center w-full" />
+                <input type="submit" value="Borrow" disabled={quantity <= 0 || isBookAlreadyBorrowed} className="btn text-xl bg-gradient-to-r from-purple-700 to-blue-400 rounded-lg text-white text-center w-full" />
               </div>
             </form>
           </div>
@@ -169,8 +187,7 @@ const BookDetails = () => {
   );
 };
 
-BookDetails.propTypes = {
-    
-};
-
 export default BookDetails;
+
+
+

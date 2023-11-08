@@ -1,14 +1,14 @@
 import { useContext, useEffect, useState } from "react";
-import { MdDelete } from 'react-icons/md';
+// import { MdDelete } from 'react-icons/md';
 // import { RiDeleteBin5Line } from 'react-icons/ri';
 // import { FiCornerUpLeft } from 'react-icons/fi';
 // import { NavLink } from "react-router-dom";
 import { AuthContext } from "../../Provider/AuthProvider";
+import Swal from "sweetalert2";
 
 const Borrow = () => {
 const {user}= useContext(AuthContext);
 const [bookings, setBookings] = useState([]);
-
 const url = `http://localhost:5000/borrowed?email=${user?.email}`
 useEffect(()=>{
     fetch(url)
@@ -20,21 +20,100 @@ useEffect(()=>{
     .catch(error =>{
         console.log(error.message);
     })
-},[])
+},[url])
+
+const handleRemove = (id) =>{
+  console.log('Remove button clicked!');
+  Swal.fire({
+    title: "Are you sure?",
+    text: "Do you want to remove this book?",
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonColor: "#3085d6",
+    cancelButtonColor: "#d33",
+    confirmButtonText: "Yes, Remove it!"
+  }).then((result) => {
+    if (result.isConfirmed) {
+      console.log(id);
+      fetch(`http://localhost:5000/borrowed/${id}`,{method: "DELETE"})
+      .then(res=> res.json())
+      .then(data => {
+        console.log(data);
+        if(data.deletedCount>0){
+          Swal.fire({
+            title: "Removed!",
+            text: "Your Book has been removed.",
+            icon: "success"
+          });
+          const remaining = bookings.filter(booking => booking._id !== id);
+          setBookings(remaining);
+        }
+      })
+      
+    }
+  });
+
+}
+
+const handleConfirm = (id)=>{
+  console.log('Confirm button clicked!');
+  Swal.fire({
+    title: "Are you sure?",
+    text: "Do you want to confirm this borrow request?",
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonColor: "#3085d6",
+    cancelButtonColor: "#d33",
+    confirmButtonText: "Yes, Confirm it!"
+  }).then((result) => {
+    if (result.isConfirmed) {
+      console.log(id);
+      fetch(`http://localhost:5000/borrowed/${id}`,{
+        method: "PATCH",
+        headers: {
+          "content-type":"application/json"
+        },
+        body: JSON.stringify({status: "Confirmed"})
+      })
+      .then(res=> res.json())
+      .then(data => {
+        console.log(data);
+        if(data.modifiedCount>0){
+    
+          Swal.fire({
+            title: "Confirmed!",
+            text: "This borrowing request is confirmed.",
+            icon: "success"
+          });
+          const remaining = bookings.filter(booking => booking._id !== id);
+          const updated = bookings.find(booking => booking._id === id);
+          updated.status = "Confirmed";
+          const newBookings = [updated, ...remaining]
+          setBookings(newBookings);
+        }
+      })
+      
+    }
+  });
+}
+
+
 
 return (
 <div className="mx-[20px] md:mx-[50px] lg:mx-[100px] my-12">
 <div className="overflow-x-auto">
-  <table className="table">
+  {
+    bookings.length > 0
+    ?
+    <table className="table">
     {/* head */}
     <thead>
       <tr className="text-xl text-blue-400">
-        <th>Delete</th>
         <th>Books</th>
         <th>Users</th>
         <th>Borrowed </th>
         <th>Return </th>
-        <th>Approval</th>
+        <th>Status</th>
         <th></th>
       </tr>
     </thead>
@@ -43,8 +122,6 @@ return (
       {
         bookings.map(booking =>
             <tr key={booking._id}>
-                {/* onClick={()=> handleRemove(booking._id)}  */}
-            <td><button className="text-red-600 text-[40px]"><MdDelete/></button></td>
             <td>
               <div className="flex items-center space-x-3">
                 <div className="avatar">
@@ -62,10 +139,14 @@ return (
             <td className="text-lg ">{booking?.borrowData}</td>
             <td className="text-lg ">{booking?.returnDate}</td>
             <th>
-              <button className="btn btn-ghost btn-xs">Pending...</button>
+              {
+                booking.status === "Confirmed"
+                ? <span className="bg-green-400 text-black p-2 text-md rounded-lg">CONFIRMED</span>
+                : <button onClick={()=>handleConfirm(booking?._id)} className="btn btn-sm bg-red-500 text-white">Pending...</button>
+              }
             </th>
             <th>
-              <button className="btn bg-gradient-to-r from-purple-700 to-blue-300 text-white btn-md text-md">Return</button>
+              <button onClick={()=>handleRemove(booking?._id)} className="btn bg-gradient-to-r from-purple-700 to-blue-300 text-white btn-md text-md">Return</button>
             </th>
           </tr>
         )
@@ -73,6 +154,13 @@ return (
      
     </tbody>    
   </table>
+  :
+  <div className="w-full flex flex-col items-center py-8 md:py-12 ">
+    <h1 className="bg-gradient-to-r from-purple-700 to-blue-300 text-transparent bg-clip-text w-fit text-4xl md:text-6xl lg:text-8xl font-bold">Empty Cart !</h1>
+    <img src="https://i.ibb.co/7QgbJtW/empty-cart-removebg-preview.png" alt="" />
+  </div>
+  }
+  
 </div>
     </div>
     );

@@ -21,13 +21,49 @@ const SignUp = () => {
     const email = form.email.value;
     const photo = form.photo.value;
     const password = form.password.value;
+    const role = "user";
 
-    const newUser = {name, email, password};
+    const newUser = {name, email, password, role, photo};
     console.log(newUser);
     createUser(email, password)
     .then(result => {
       console.log(result.user);
-      
+       //set user to mongodb server
+    const createdAt = result.user?.metadata?.creationTime;
+    const user ={name, email, photo, createdAt }
+    //https://coffee-shop-server-nine.vercel.app
+    fetch('http://localhost:5000/user', {
+        method: "POST",
+        headers: {
+            'content-type': "application/json"
+        },
+        body: JSON.stringify(newUser)
+    })
+    .then(res => res.json())
+    .then(data=>{
+                         
+        if(data.insertedId){
+            Swal.fire({
+                title: 'Success!',
+                text: 'New '+ role +' account created successfully!',
+                imageUrl: user?.photoURL, 
+                imageAlt: user?.name,
+                confirmButtonText: 'Close'
+              })
+              form.reset();
+        }
+    })
+    .catch(error=> {
+      console.error(error.message);
+      setError(error.message)
+        Swal.fire({
+        title: 'Failed!',
+        text: error.message,
+        icon: 'error',
+        confirmButtonText: 'Close'
+      })
+})
+      // update user profile on firebase
       updateUserProfile(name, photo)
       .then(()=> {
         console.log('Profile Updated!');

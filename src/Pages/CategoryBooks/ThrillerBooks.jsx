@@ -5,7 +5,7 @@ import bannerVideo from "../../images/Images/bg video.mp4";
 
 const ThrillerBooks = () => {
   const loadedBooks = useLoaderData();
-  const books = loadedBooks.filter((book) => book?.category === 'Religious');
+  const books = loadedBooks.filter((book) => book?.category === 'Thriller');
   console.log(books);
 
   return (

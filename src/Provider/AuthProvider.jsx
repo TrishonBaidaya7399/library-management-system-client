@@ -9,6 +9,9 @@ export const AuthContext = createContext(null);
 const AuthProvider = ({children}) => {
     const [user, setUser] = useState(null)
     const [loading, setLoading]= useState(true)
+    const [isAdmin, setIsAdmin] = useState(false);
+    console.log(user);
+    
 
     const createUser = (email, password)=>{
         setLoading(true)
@@ -35,7 +38,21 @@ const AuthProvider = ({children}) => {
         const unSubscribe = onAuthStateChanged(auth, (currentUser)=>{
             console.log("User in the auth state change", currentUser);
             setUser(currentUser);
-            setLoading(false)
+            setLoading(false);
+                fetch(`http://localhost:5000/user?email=${currentUser?.email}`)
+                .then(res=> res.json())
+                .then(data => {
+                    console.log(data);
+                  if(data[0].role === "admin"){
+                    setIsAdmin(true)
+                    console.log('ADMIN ID Logged In');
+                  }else{
+                    setIsAdmin(false)
+                  }
+                })
+                .catch(error => {
+                  console.log(error.message);
+                })
         });
         return ()=>{
             unSubscribe();
@@ -58,6 +75,8 @@ const AuthProvider = ({children}) => {
         logOut,
         updateUserProfile,
         signInWithGoogle,
+        setIsAdmin,
+        isAdmin,
         // removeUser,
     }
     return (
