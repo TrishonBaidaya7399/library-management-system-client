@@ -5,25 +5,18 @@ import { useContext, useEffect, useState } from "react";
 // import { NavLink } from "react-router-dom";
 import { AuthContext } from "../../Provider/AuthProvider";
 import Swal from "sweetalert2";
-import { useLoaderData } from "react-router-dom";
+// import { useLoaderData } from "react-router-dom";
 
 const Borrow = () => {
 const {user, isAdmin}= useContext(AuthContext);
-const book = useLoaderData();
+// const book = useLoaderData();
 const [bookings, setBookings] = useState([]);
 const [Allbookings, setAllBookings] = useState([]);
 const allUrl =  `https://library-management-system-server-phi.vercel.app/borrowed`
 const url = `https://library-management-system-server-phi.vercel.app/borrowed?email=${user?.email}`
 useEffect(()=>{
-    fetch(url)
-    .then(res => res.json())
-    .then(data =>{
-        console.log(data);
-        setBookings(data)
-    })
-    .catch(error =>{
-        console.log(error.message);
-    })
+  {  isAdmin
+    ? 
     fetch(allUrl)
     .then(res => res.json())
     .then(data =>{
@@ -33,7 +26,18 @@ useEffect(()=>{
     .catch(error =>{
         console.log(error.message);
     })
-},[url,allUrl])
+    :
+    fetch(url)
+    .then(res => res.json())
+    .then(data =>{
+        console.log(data);
+        setBookings(data)
+    })
+    .catch(error =>{
+        console.log(error.message);
+    })
+  }  
+},[url,allUrl,isAdmin])
 
 const handleRemove = (id) =>{
   console.log('Remove button clicked!');
@@ -54,18 +58,18 @@ const handleRemove = (id) =>{
         console.log(data);
        
         if(data.deletedCount>0){
-        //<------ send increased quantity to the server ------->
-         fetch(`https://library-management-system-server-phi.vercel.app/books/${book?._id}`,{
-          method: "PATCH",
-          headers: {
-            "content-type":"application/json"
-          },
-          body: JSON.stringify({quantity:book?.quantity+2}) //-----------problem
-        })
-      .then(res=> res.json())
-      .then(data => {
-      console.log(data + "quantity changed: " + book?.quantity);
-      })
+            // send increased quantity to the server
+      //    fetch(`https://library-management-system-server-phi.vercel.app/books/${book?._id}`,{
+      //     method: "PATCH",
+      //     headers: {
+      //       "content-type":"application/json"
+      //     },
+      //     body: JSON.stringify({quantity:book?.quantity+2}) //-----------problem
+      //   })
+      // .then(res=> res.json())
+      // .then(data => {
+      // console.log(data + "quantity changed: " + book?.quantity);
+      // })
           Swal.fire({
             title: "Removed!",
             text: "Your Book has been removed.",
@@ -116,6 +120,7 @@ const handleConfirm = (id)=>{
           updated.status = "Confirmed";
           const newBookings = [updated, ...remaining]
           setBookings(newBookings);
+          window.location.reload();
         }
       })
       
@@ -129,7 +134,7 @@ return (
 <div className="mx-[20px] md:mx-[50px] lg:mx-[100px] my-12">
 <div className="overflow-x-auto">
   {
-    bookings.length > 0
+    Allbookings.length > 0
     ?
     <table className="table">
     {/* head */}
@@ -221,7 +226,7 @@ return (
                 {
                   isAdmin
                   ? <button onClick={()=>handleConfirm(booking?._id)} className="btn btn-sm bg-red-500 text-white">Pending...</button>
-                  : <span className="bg-green-400 text-black p-2 text-md rounded-lg">Pending...</span>
+                  : <span className="bg-red-500 text-black p-2 text-md rounded-lg">Pending...</span>
                 }
                 </>
               
