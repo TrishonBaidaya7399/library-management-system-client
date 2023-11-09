@@ -52,7 +52,7 @@ const NavItems = <div className="flex flex-col lg:flex-row gap-4 items-center">
 </div>   
 
     return (
-<div className="navbar px-[20px] md:px-[50px] lg:px-[100px] pt-[20px]">
+<div className="navbar px-[5px] md:px-[50px] lg:px-[100px] pt-[20px]">
   <div className="navbar-start">
     <div className="dropdown">
       <label tabIndex={0} className="btn btn-ghost lg:hidden">
@@ -62,7 +62,7 @@ const NavItems = <div className="flex flex-col lg:flex-row gap-4 items-center">
       {NavItems}
       </ul>
     </div>
-    <img className="w-[250px]" src={logo} alt="" />
+    <img className="w-[180px] md:w-[250px]" src={logo} alt="" />
   </div>
   <div className="navbar-center hidden lg:flex">
     <ul className="menu menu-horizontal px-1">

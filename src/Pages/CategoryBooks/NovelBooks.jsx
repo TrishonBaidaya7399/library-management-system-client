@@ -19,7 +19,7 @@ const NovelBooks = () => {
             overflow: 'hidden',
             textAlign: 'center',
           }}
-          className="video-container rounded-xl"
+          className="video-container rounded-xl hidden md:block"
         >
           <video
             className='rounded-xl'
@@ -48,7 +48,7 @@ const NovelBooks = () => {
             className="video-content"
           >
             <h1 className='bg-gradient-to-r from-purple-600 to-blue-400 text-transparent bg-clip-text text-4xl md:text-8xl font-bold w-fit mx-auto'>Novel Books</h1>
-            <p className='pt-6 text-xl font-bold'>
+            <p className='pt-6 text-xl font-bold hidden lg:block'>
             {"Novels are like windows to different worlds, where imagination and reality dance together, revealing the beauty of human experience through the art of storytelling."}
             </p>
           </div>

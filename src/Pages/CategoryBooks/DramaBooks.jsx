@@ -19,7 +19,7 @@ const DramaBooks = () => {
             overflow: 'hidden',
             textAlign: 'center',
           }}
-          className="video-container rounded-xl"
+          className="video-container rounded-xl hidden md:block"
         >
           <video
             className='rounded-xl'
@@ -47,8 +47,8 @@ const DramaBooks = () => {
             }}
             className="video-content"
           >
-            <h1 className='bg-gradient-to-r from-purple-600 to-blue-400 text-transparent bg-clip-text text-4xl md:text-8xl font-bold w-fit mx-auto'>Drama Books</h1>
-            <p className='pt-6 text-xl font-bold'>
+            <h1 className='bg-gradient-to-r from-purple-600 to-blue-400 text-transparent bg-clip-text text-4xl md:text-8xl font-bold w-fit lg-auto'>Drama Books</h1>
+            <p className='pt-6 text-xl font-bold hidden lg:block'>
             Life is a drama, and we are all actors on its stage, playing our parts with passion and purpose, sometimes with tears, and sometimes with laughter.
             </p>
           </div>

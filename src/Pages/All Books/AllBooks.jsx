@@ -127,7 +127,7 @@ const AllBooks = () => {
             className="video-content"
           >
             <h1 className='bg-gradient-to-r from-purple-600 to-blue-400 text-transparent bg-clip-text text-4xl md:text-8xl font-bold w-fit mx-auto'>All Category Books</h1>
-            <p className='pt-6 text-xl font-bold hidden md:block'>
+            <p className='pt-6 text-xl font-bold hidden lg:block'>
               Life is a drama, and we are all actors on its stage, playing our parts with passion and purpose, sometimes with tears, and sometimes with laughter.
             </p>
           </div>
@@ -158,17 +158,14 @@ const AllBooks = () => {
             <option value="All">All Books</option>
             <option value="Novel">Novel Books</option>
             <option value="Thriller">Thriller Books</option>
-            <option value="History">History Books</option>
-            <option value="Sci-Fi">Sci-Fi Books</option>
             <option value="Religious">Religious Books</option>
-            <option value="Drama">Drama Books</option>
           </select>
         </div>
 {/*  */}
   {
     filteredBooksByCategory.length>0
     ? <>
-    <div className='grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-8 mx-[20px] md:mx-[50px] lg:mx-[100px] mb-12 '>
+    <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mx-[20px] md:mx-[50px] lg:mx-[100px] mb-12 '>
           {filteredBooksByCategory.map((book, idx) => (
            <div key={idx} className="drop-shadow-lg text-center w-[300px] border-2 border-gray-400 p-4  rounded-md">
            <div className="prod-img bg-gray-400 w-full h-[200px] mx-auto rounded-lg">

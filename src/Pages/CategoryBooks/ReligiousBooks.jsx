@@ -19,7 +19,7 @@ const ReligiousBooks = () => {
             overflow: 'hidden',
             textAlign: 'center',
           }}
-          className="video-container rounded-xl"
+          className="video-container rounded-xl hidden md:block"
         >
           <video
             className='rounded-xl'
@@ -48,7 +48,7 @@ const ReligiousBooks = () => {
             className="video-content"
           >
             <h1 className='bg-gradient-to-r from-purple-600 to-blue-400 text-transparent bg-clip-text text-4xl md:text-8xl font-bold w-fit mx-auto'>Religious Books</h1>
-            <p className='pt-6 text-xl font-bold'>
+            <p className='pt-6 text-xl font-bold hidden lg:block'>
             {"Like Lord Krishna's divine flute, the verses of religious texts resonate with timeless wisdom, stirring the soul and leading us on a melodious journey of self-realization and devotion."}
             </p>
           </div>
