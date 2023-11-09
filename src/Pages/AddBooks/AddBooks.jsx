@@ -64,7 +64,7 @@ const AddBooks = () => {
         <div className="py-[20px] md:pb-[70px]">
             <div className="bg-gray-200 w-[80%] mx-auto mt-[50px] py-[20px] md:py-[70px] rounded-lg">
                 <h1 className="text-center bg-gradient-to-r from-purple-700 to-blue-300 text-transparent bg-clip-text text-6xl font-bold w-fit pb-6 mx-auto">Add New Book</h1>
-                <form onSubmit={handleAdd} className="w-[80%] mx-auto text-gray-600">
+                <form onSubmit={handleAdd} className="w-[95%] md:w-[80%] mx-auto text-gray-600">
                     <div className="mt-6">
                         <h1 className="text-gray-600 text-xl font-semibold">Cover Photo URL</h1>
                         <input type="text" name="photo" id="photo" required placeholder="Enter Books Photo URL" className="w-full bg-white border-2 border-white hover:border-gray-300 mt-4 p-3 rounded-md duration-200" />
