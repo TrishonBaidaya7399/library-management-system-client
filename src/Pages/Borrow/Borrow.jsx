@@ -62,6 +62,8 @@ const handleRemove = (id) =>{
         if(data.deletedCount>0){
           const remaining = bookings.filter(booking => booking._id !== id);
           setBookings(remaining);
+          const AllRemaining = AllBookings.filter(AllBooking => AllBooking._id !== id);
+          setAllBookings(AllRemaining);
           Swal.fire({
             title: "Removed!",
             text: "Your Book has been removed.",
@@ -316,7 +318,7 @@ return (
                 }
               </th>
               <th>
-                <button onClick={()=>handleRemove(booking?._id)} className="btn bg-gradient-to-r from-purple-700 to-blue-300 text-white btn-md text-md">Return</button>
+                <button onClick={()=>{handleRemove(booking?._id); handleIncrease(booking.id)}} className="btn bg-gradient-to-r from-purple-700 to-blue-300 text-white btn-md text-md">Return</button>
               </th>
             </tr>
           )
@@ -351,7 +353,7 @@ return (
                 }
               </th>
               <th>
-                <button onClick={()=>handleRemove(booking?._id)} className="btn bg-gradient-to-r from-purple-700 to-blue-300 text-white btn-md text-md">Return</button>
+                <button onClick={()=>{handleRemove(booking?._id); handleIncrease(booking.id)}} className="btn bg-gradient-to-r from-purple-700 to-blue-300 text-white btn-md text-md">Return</button>
               </th>
             </tr>
           )
