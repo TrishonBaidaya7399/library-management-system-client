@@ -53,15 +53,22 @@ const handleRemove = (id) =>{
     confirmButtonText: "Yes, Remove it!"
   }).then((result) => {
     if (result.isConfirmed) {
+<<<<<<< HEAD
       fetch(`https://library-management-system-server-phi.vercel.app/borrowed/${id}`,
       {method: "DELETE"})
+=======
+      fetch(`https://library-management-system-server-phi.vercel.app/borrowed/${id}`,{method: "DELETE"})
+>>>>>>> b94b00f34a67b43eee6266eb901367e77f55c203
       .then(res=> res.json())
       .then(data => {
         console.log(data);
        
         if(data.deletedCount>0){
+<<<<<<< HEAD
           const remaining = bookings.filter(booking => booking._id !== id);
           setBookings(remaining);
+=======
+>>>>>>> b94b00f34a67b43eee6266eb901367e77f55c203
           Swal.fire({
             title: "Removed!",
             text: "Your Book has been removed.",
@@ -206,7 +213,11 @@ return (
                 }
               </th>
               <th>
+<<<<<<< HEAD
                 <button onClick={()=>{handleRemove(booking?._id); handleIncrease(booking.id)}} className="btn bg-gradient-to-r from-purple-700 to-blue-300 text-white btn-md text-md">Return</button>
+=======
+                <button onClick={()=>handleRemove(booking?._id)} className="btn bg-gradient-to-r from-purple-700 to-blue-300 text-white btn-md text-md">Return</button>
+>>>>>>> b94b00f34a67b43eee6266eb901367e77f55c203
               </th>
             </tr>
           )
