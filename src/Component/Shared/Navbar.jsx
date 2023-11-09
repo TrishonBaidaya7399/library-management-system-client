@@ -52,7 +52,7 @@ const NavItems = <div className="flex flex-col lg:flex-row gap-4 items-center">
 </div>   
 
     return (
-<div className="navbar px-[20px] md:px-[50px] lg:px-[100px] pt-[20px]">
+<div className="navbar px-[5px] md:px-[50px] lg:px-[100px] pt-[20px]">
   <div className="navbar-start">
     <div className="dropdown">
       <label tabIndex={0} className="btn btn-ghost lg:hidden">
@@ -62,7 +62,7 @@ const NavItems = <div className="flex flex-col lg:flex-row gap-4 items-center">
       {NavItems}
       </ul>
     </div>
-    <img className="w-[250px]" src={logo} alt="" />
+    <img className="w-[180px] md:w-[250px]" src={logo} alt="" />
   </div>
   <div className="navbar-center hidden lg:flex">
     <ul className="menu menu-horizontal px-1">
@@ -93,7 +93,14 @@ const NavItems = <div className="flex flex-col lg:flex-row gap-4 items-center">
           </label>
           <ul tabIndex={0} className="menu menu-sm dropdown-content mt-[300px] z-30 p-2 shadow bg-base-100 rounded-box w-[350px]">
             <li className='w-[200px] h-[200px] rounded-lg border-[5px] border-purple-700 flex items-center justify-center mx-auto bg-gray-300'><img className='rounded-lg' src={user?.photoURL} alt="" /></li>
-            <li className='mx-auto'><a className="justify-between bg-gradient-to-r from-purple-700 to-blue-300 text-transparent bg-clip-text text-2xl font-bold text-center">{user?.displayName ? user.displayName : "User Logged In"}</a></li>
+            {
+              isAdmin
+              ?
+              <li className='mx-auto'><a className="justify-between bg-gradient-to-r from-purple-700 to-blue-300 text-transparent bg-clip-text text-2xl font-bold text-center">Admin ID</a></li>
+              : ''
+            }
+            <li className='mx-auto py-1'><a className="justify-between bg-gradient-to-r from-purple-700 to-blue-300 text-transparent bg-clip-text text-[25px] font-bold text-center">{user?.displayName ? user.displayName : "User Logged In"}</a></li>
+            <li className='mx-auto py-1'><a className="justify-between text-[16px] font-bold text-center">{user?.email ? user.email : ""}</a></li>
            
             <li className='w-full'><NavLink to='/borrowed' className="btn bg-gradient-to-r from-purple-700 to-blue-300 text-white text-center pt-3 w-full text-xl"><li>Borrowed Books</li></NavLink></li>
             <li onClick={handleSignOut} className="btn bg-gradient-to-r from-purple-700 to-blue-300 text-white text-xl"><p className='text-xl'>Logout<FiLogOut className='text-[30px]'/></p></li>

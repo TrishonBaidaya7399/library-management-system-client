@@ -23,7 +23,8 @@ const AddBooks = () => {
         const pdf = form.pdf.value;
         const category = form.category.value;
         const price = form.price.value;
-        const quantity = form.quantity.value;
+        const quantityStr = form.quantity.value;
+        const quantity = parseInt(quantityStr);
         const description = form.description.value;
         const rating = form.rating.value;
         const newBook = {photo, name, authorname, price, quantity, description, rating, category, pdf}

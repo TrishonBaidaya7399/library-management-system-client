@@ -19,7 +19,7 @@ const HistoryBooks = () => {
             overflow: 'hidden',
             textAlign: 'center',
           }}
-          className="video-container rounded-xl"
+          className="video-container rounded-xl hidden md:block"
         >
           <video
             className='rounded-xl'
@@ -48,7 +48,7 @@ const HistoryBooks = () => {
             className="video-content"
           >
             <h1 className='bg-gradient-to-r from-purple-600 to-blue-400 text-transparent bg-clip-text text-4xl md:text-8xl font-bold w-fit mx-auto'>History Books</h1>
-            <p className='pt-6 text-xl font-bold'>
+            <p className='pt-6 text-xl font-bold hidden lg:block'>
             {"In the pages of history, we discover the remarkable stories of those who shaped the world, the triumphs and tribulations that define our past, and the enduring lessons that guide our future."}
             </p>
           </div>

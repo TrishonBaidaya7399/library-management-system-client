@@ -19,7 +19,7 @@ const SciFiBooks = () => {
             overflow: 'hidden',
             textAlign: 'center',
           }}
-          className="video-container rounded-xl"
+          className="video-container rounded-xl hidden md:block"
         >
           <video
             className='rounded-xl'
@@ -48,7 +48,7 @@ const SciFiBooks = () => {
             className="video-content"
           >
             <h1 className='bg-gradient-to-r from-purple-600 to-blue-400 text-transparent bg-clip-text text-4xl md:text-8xl font-bold w-fit mx-auto'>Sci-Fi Books</h1>
-            <p className='pt-6 text-xl font-bold'>
+            <p className='pt-6 text-xl font-bold hidden lg:block'>
             {"In the boundless universe of science fiction, we explore the uncharted realms of imagination, where technology and the human spirit merge to create extraordinary tales of the future, unknown worlds, and the limitless possibilities of the cosmos."}
             </p>
           </div>

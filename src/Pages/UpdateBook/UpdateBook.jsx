@@ -17,7 +17,8 @@ const UpdateBook = () => {
         const price = form.price.value;
         const description = form.description.value;
         const rating = form.rating.value;
-        const quantity = form.quantity.value;
+        const quantityStr = form.quantity.value;
+        const quantity = parseInt(quantityStr);
         const updatedBook = {photo, name, authorname, price, quantity, description, rating, category,pdf}
         console.log('Name: ' + name);
         console.log('Photo URL: ' + photo);
@@ -25,6 +26,7 @@ const UpdateBook = () => {
         console.log('Price: ' + price);
         console.log('Description: ' + description);
         console.log('Rating: ' + rating);
+        console.log('Quantity:' , quantity);
         console.log('Added New product details:' , updatedBook);
 
 

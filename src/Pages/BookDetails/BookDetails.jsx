@@ -91,7 +91,7 @@ const BookDetails = () => {
                   confirmButtonText: 'Ok!',
                 });
                
-              
+                console.log("Prev Book Quantity",book?.quantity);
                 // send decreased quantity to the server
                 fetch(`https://library-management-system-server-phi.vercel.app/books/${book?._id}`,{
                     method: "PATCH",

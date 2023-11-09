@@ -19,7 +19,7 @@ const ThrillerBooks = () => {
             overflow: 'hidden',
             textAlign: 'center',
           }}
-          className="video-container rounded-xl"
+          className="video-container rounded-xl hidden md:block"
         >
           <video
             className='rounded-xl'
@@ -48,7 +48,7 @@ const ThrillerBooks = () => {
             className="video-content"
           >
             <h1 className='bg-gradient-to-r from-purple-600 to-blue-400 text-transparent bg-clip-text text-4xl md:text-8xl font-bold w-fit mx-auto'>Thriller Books</h1>
-            <p className='pt-6 text-xl font-bold'>
+            <p className='pt-6 text-xl font-bold hidden lg:block'>
             {"In the heart-pounding world of thrillers, every page is a roller-coaster ride through suspense and intrigue, where mysteries unfold, danger lurks in the shadows, and the thrill of the unknown keeps us turning the pages, breathless and captivated."}
             </p>
           </div>
