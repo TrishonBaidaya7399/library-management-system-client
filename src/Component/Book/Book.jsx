@@ -8,7 +8,7 @@ const Book = ({book}) => {
     const {isAdmin} = useContext(AuthContext)
 return (
 <div className="pb-6">
-        <div className="drop-shadow-lg text-center w-[300px] h-[460px] border-2 border-gray-400 p-4  rounded-md">
+        <div className="drop-shadow-lg text-center w-[280px] h-[460px] border-2 border-gray-400 p-4  rounded-md">
             <div className="prod-img rounded-lg bg-gray-400 w-full h-[200px] mx-auto">
             <img className="h-full w-full rounded-lg" src={book?.photo} alt="" />
             </div>

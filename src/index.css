@@ -3,3 +3,7 @@
 @tailwind utilities;
 
 /*bg-gradient-to-r from-purple-700 to-blue-300 text-transparent bg-clip-text text-4xl font-bold w-fit */
+
+#file-upload-button{
+    background: linear-gradient(to right, rgba(147, 197, 253, 1), rgba(126, 34, 206, 1));
+}
