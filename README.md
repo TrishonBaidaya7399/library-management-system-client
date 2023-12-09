@@ -4,6 +4,10 @@
 <a href="https://book-shelf-library-management.web.app/">
   <img src="https://github.com/TrishonBaidaya7399/TrishonBaidaya7399/blob/main/bookshelf%20banner.jpg?raw=true" />
 </a>
+## Technologies Used:
+- React, Node, Express, JWT, HTML, CSS, JS
+- MongoDB, Firebase
+- Tailwind CSS, DaisyUI
 
 ## Project Features:
 - There is an Admin and user-based log-in system, where users can not change book data, delete book, or borrow request confirmation. these tasks can only done by the Admin
