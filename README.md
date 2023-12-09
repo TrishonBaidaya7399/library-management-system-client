@@ -1,5 +1,10 @@
 # BookShelf - Library Management
 ## Live link: https://book-shelf-library-management.web.app/
+
+<a href="https://book-shelf-library-management.web.app/">
+  <img src="https://github.com/TrishonBaidaya7399/TrishonBaidaya7399/blob/main/bookshelf%20banner.jpg?raw=true" />
+</a>
+
 ## Project Features:
 - There is an Admin and user-based log-in system, where users can not change book data, delete book, or borrow request confirmation. these tasks can only done by the Admin
 - When a user is logged in, this profile image and name will show at the Navbar
